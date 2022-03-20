@@ -3,7 +3,21 @@ import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/mo
 
 
 
+// Future<void> initParse() async {
 
+//
+//   await Parse().initialize(keyApplicationId, keyParseServerUrl,
+//     clientKey: keyClientKey, autoSendSessionId: true, );
+// }
+//
+// void _incrementCounter() async {
+//   final ParseCloudFunction function = ParseCloudFunction('removeInvalidLogin');
+//   final ParseResponse parseResponse = await function.execute();
+//   print(" error ${parseResponse.error?.message}");
+//   if (parseResponse.success && parseResponse.result != null) {
+//     print(parseResponse.result);
+//   }
+// }
 //
 // Future<void> saveRecipe(RecipeModel element) async {
 //
