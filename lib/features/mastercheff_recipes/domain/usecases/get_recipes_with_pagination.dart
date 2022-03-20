@@ -13,7 +13,7 @@ class GetRecipesWithPagination implements UseCase<List<RecipeModel>, ParamsRecip
   GetRecipesWithPagination(this._repository);
 
   @override
-  Future<Either<Failure, List<RecipeModel>>?> call(ParamsRecipesWithPag params) async {
+  Future<Either<Failure, List<RecipeModel>>> call(ParamsRecipesWithPag params) async {
     return await _repository.getRecipesByPage(params.pageNumber);
   }
 }

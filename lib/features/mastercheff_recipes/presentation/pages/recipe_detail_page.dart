@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:master_chef_yemek_tarifleri/core/utils/environment.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 
 
@@ -33,11 +34,10 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        // if(widget.recipeModel.photo != null) Image.memory(base64Decode(widget.recipeModel.photo!), fit: BoxFit.fitHeight),
-        // Image.network(
-        //   "https://img.acunn.com/${(jsonDecode(widget.recipeModel.resim!) as Map<dynamic, dynamic>)["original"]}",
-        //   fit: BoxFit.fitHeight,
-        // ),
+        Image.network(
+          "${Environment.baseURL}recipes/getImage/${widget.recipeModel.localImage}",
+          fit: BoxFit.fitHeight,
+        ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
           child: Scaffold(
@@ -63,11 +63,10 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // if(widget.recipeModel.photo != null) Image.memory(
-                    //     base64Decode(widget.recipeModel.photo!),
-                    //   fit: BoxFit.fitHeight,
-                    //   height: 500,
-                    // ),
+                    Image.network("${Environment.baseURL}recipes/getImage/${widget.recipeModel.localImage}",
+                      fit: BoxFit.fitHeight,
+                      height: 500,
+                    ),
                     Container(
                       margin: const EdgeInsets.all(20.0),
                       padding: const EdgeInsets.all(20.0),

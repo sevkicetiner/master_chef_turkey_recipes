@@ -26,3 +26,9 @@ class AddFavoriteEvent extends RecipeEvent {
 
   AddFavoriteEvent(this.recipeModel);
 }
+
+class SearchRecipeEvent extends RecipeEvent {
+  String searchText;
+
+  SearchRecipeEvent(this.searchText);
+}

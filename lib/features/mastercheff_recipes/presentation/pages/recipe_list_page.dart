@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:master_chef_yemek_tarifleri/di/getx.dart';
+
 // import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/repositories/repository.dart';
@@ -20,15 +20,16 @@ class RecipeListPage extends StatefulWidget {
 }
 
 class _RecipeListPageState extends State<RecipeListPage> {
-
-
   var mKey = const Key("RecipeListPage");
   static const _insets = 16.0;
+
   // BannerAd? _inlineAdaptiveAd;
   bool _isLoaded = false;
+
   // AdSize? _adSize;
   late Orientation _currentOrientation;
   late RecipeBloc bloc;
+  TextEditingController searchTextController = TextEditingController();
   double get _adWidth => MediaQuery.of(context).size.width - (2 * _insets);
 
   void _loadAd() async {
@@ -111,55 +112,91 @@ class _RecipeListPageState extends State<RecipeListPage> {
     return BlocBuilder<RecipeBloc, RecipeState>(
       builder: (context, state) {
         bloc = context.read<RecipeBloc>();
-        if(state is Empty) {
-          return const Center(child: Text("Tarifler bos geldi"),);
-        } else if(state is Loading) {
-          return const Center(child: CircularProgressIndicator(),);
-        } else if(state is Loaded) {
-          return _recipesList(context, state.recipes);
+
+        if (state is Empty) {
+          return const Center(
+            child: Text("Tarifler bos geldi"),
+          );
+        } else if (state is Loading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is Loaded) {
+          return _recipesListUpdate(context);
         } else if (state is Error) {
           return Center(child: Text(state.Message));
-        } else if(state is InitEvent){
-          if(bloc.counter == 0){
-            bloc.add(GetRecipesWithPaginationEvent(bloc.counter));
-          }
         }
-
         return Container(
-            height: MediaQuery.of(context).size.height/3,
-            child: Placeholder(),
-          );
-        },
+          height: MediaQuery.of(context).size.height / 3,
+          child: Placeholder(),
+        );
+      },
     );
   }
 
-  Widget _recipesList(BuildContext context, List<RecipeModel> recipes) {
-    if(recipes.isEmpty){
-      return const Center(child: Text("bos geldi"),);
+  Widget _recipesListUpdate(BuildContext context) {
+    if (bloc.listRecipe.isEmpty) {
+      return const Center(
+        child: Text("bos geldi"),
+      );
     }
-    return ListView.separated(
-      itemCount: recipes.length + 1,
-      itemBuilder: (context, index) {
-        if (index != 0 && index == recipes.length) {
-          print("index ve recipe lenght esit");
-
-          return const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(child: CircularProgressIndicator()),
-          );
-        } else {
-          return RecipeListItemWidget(
-              key: widget.key, recipeModel: recipes[index]);
-        }
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        if (index % 5 == 0) {
-          // return _getAdWidget();
-          return Container();
-        } else {
-          return Container();
-        }
-      },
+    return Stack(
+      children: [
+        ListView.separated(
+          itemCount: bloc.listRecipe.length + 1,
+          itemBuilder: (context, index) {
+            if (index != 0 && index == bloc.listRecipe.length) {
+              print("index ve recipe lenght esit");
+              bloc
+                  .getRecipePages(bloc.counter)
+                  .then((value) => setState(() {}));
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              return RecipeListItemWidget(
+                  key: widget.key, recipeModel: bloc.listRecipe[index]);
+            }
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            if (index % 5 == 0) {
+              // return _getAdWidget();
+              return Container();
+            } else {
+              return Container();
+            }
+          },
+        ),
+        Positioned(
+            top: 35,
+            left: 20,
+            right: 20,
+            child: Container(
+                height: 50.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white
+                ),
+              child: TextField(
+                textInputAction: TextInputAction.search,
+                controller: searchTextController,
+                decoration: InputDecoration(
+                    hintText: "Para onde vamos?",
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () => searchAndNavigate(searchTextController.text),
+                      iconSize: 30.0,
+                    )
+                ),
+                onSubmitted: searchAndNavigate,
+              ),
+            ),
+        )
+      ],
     );
   }
 
@@ -174,5 +211,9 @@ class _RecipeListPageState extends State<RecipeListPage> {
     super.didChangeDependencies();
     _currentOrientation = MediaQuery.of(context).orientation;
     _loadAd();
+  }
+
+  void searchAndNavigate(String text) {
+    bloc.add(SearchRecipeEvent(searchTextController.text));
   }
 }

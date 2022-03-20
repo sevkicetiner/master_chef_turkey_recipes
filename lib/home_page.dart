@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getInstance<RecipeBloc>()..add(InitEvent()), //  getInstance<RecipeBloc>()..add(InitEvent()),
+      create: (context) => getInstance<RecipeBloc>()..add(GetRecipesWithPaginationEvent(0)), //  getInstance<RecipeBloc>()..add(InitEvent()),
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: const [

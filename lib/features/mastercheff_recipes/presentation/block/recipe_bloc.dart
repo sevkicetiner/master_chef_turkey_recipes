@@ -15,12 +15,13 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   static const String SERVER_FAILURE_MESSAGE = 'Server Failure';
   static const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
   static const String INVALID_INPUT_FAILURE_MESSAGE = 'Invalid Input - The number must be a positive integer or zero.';
-  Stream<List<RecipeModel>> listStream = Stream.empty();
+  List<RecipeModel> listRecipe = [];
   int counter = 0;
+  GetRecipesWithPagination getRecipesWithPagination;
 
   RecipeBloc({
     required GetRecipeById getRecipeById,
-    required GetRecipesWithPagination getRecipesWithPagination,
+    required this.getRecipesWithPagination,
     required GetRandomRecipe getRandomRecipe,
     required AddFavorites addFavorites,
   }) : super(RecipeState().init()) {
@@ -40,13 +41,30 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
     on<GetRecipesWithPaginationEvent>((event, emit) async {
       emit(Loading());
       final failureOrRecipeList = await getRecipesWithPagination(ParamsRecipesWithPag(pageNumber: event.pageNumber));
-      failureOrRecipeList?.fold(
-              (l) => emit(Error( Message: _mapFailureToMessage(l))),
-              (r) {
-
+      failureOrRecipeList.fold(
+              (failure) => emit(Error( Message: _mapFailureToMessage(failure))),
+              (recipeList) {
+                this.listRecipe.addAll(recipeList);
+                emit(Loaded(this.listRecipe));
               }
       );
     });
+
+    on<SearchRecipeEvent>((event, emit){
+
+    });
+  }
+
+  Future<List<RecipeModel>> getRecipePages(int page) async {
+    final failureOrRecipeList = await getRecipesWithPagination(ParamsRecipesWithPag(pageNumber: this.counter));
+    return failureOrRecipeList.fold(
+            (failure) => [],
+            (recipeList) {
+              this.listRecipe.addAll(recipeList);
+              counter++;
+              return listRecipe;
+            }
+    );
   }
 
   void _init(InitEvent event, Emitter<RecipeState> emit) async {
