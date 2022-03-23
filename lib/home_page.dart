@@ -46,8 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = getInstance<RecipeBloc>();
     return BlocProvider(
-      create: (context) => getInstance<RecipeBloc>()..add(GetRecipesWithPaginationEvent(0)), //  getInstance<RecipeBloc>()..add(InitEvent()),
+      create: (context) => bloc..add(GetRecipesWithPaginationEvent(0)), //  getInstance<RecipeBloc>()..add(InitEvent()),
       child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: const [
@@ -57,6 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
           onTap: (selected) {
             _pageSelector = selected;
+            if(selected == 2){
+              context.read<RecipeBloc>().add(GetRandomRecipeEvent());
+            }
             setState(() {
             });
           },

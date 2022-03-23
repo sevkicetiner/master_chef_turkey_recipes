@@ -7,7 +7,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:master_chef_yemek_tarifleri/core/utils/environment.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 
-
 class RecipeDetailPage extends StatefulWidget {
   const RecipeDetailPage({Key? key, required this.recipeModel})
       : super(key: key);
@@ -41,41 +40,66 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
           child: Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  widget.recipeModel.baslikOrig ?? "",
-                  maxLines: 5,
-                  textAlign: TextAlign.justify,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                elevation: 0.0,
-                backgroundColor: const Color(0xFFB4C56C).withOpacity(0.4),
-                actions: [
-                  IconButton(
-                      onPressed: () {
-                        boxRecive.put(
-                            widget.recipeModel.id, widget.recipeModel);
-                      },
-                      icon: Icon(Icons.add))
-                ],
-              ),
               backgroundColor: Colors.transparent,
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Image.network("${Environment.baseURL}recipes/getImage/${widget.recipeModel.localImage}",
-                      fit: BoxFit.fitHeight,
-                      height: 500,
+                    Stack(
+                      children: [
+                        Image.network(
+                          "${Environment.baseURL}recipes/getImage/${widget.recipeModel.localImage}",
+                          fit: BoxFit.fitHeight,
+                          height: 500,
+                        ),
+
+                        Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            alignment: Alignment.bottomCenter,
+                            height: 120,
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Text(
+                                widget.recipeModel.baslikOrig ?? "",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: <Color>[
+                                    Colors.black.withAlpha(0),
+                                    Colors.black54,
+                                    Colors.black54
+                                  ],
+                                )
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                     Container(
                       margin: const EdgeInsets.all(20.0),
                       padding: const EdgeInsets.all(20.0),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFB4C56C).withOpacity(0.4),
+                        color: const Color(0x6d6d6d).withOpacity(0.7),
                         borderRadius: BorderRadius.all(Radius.circular(50.0)),
                       ),
                       child: Html(
                         data: widget.recipeModel.detay,
+                        style: {
+                          "body": Style(
+                            fontSize: FontSize(18.0),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white
+                          ),
+                        },
                       ),
                     ),
                   ],

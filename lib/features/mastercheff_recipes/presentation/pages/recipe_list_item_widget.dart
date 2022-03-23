@@ -28,7 +28,7 @@ class RecipeListItemWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(5.0),
               alignment: Alignment.bottomCenter,
-              height: 250,
+              height: 180,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(

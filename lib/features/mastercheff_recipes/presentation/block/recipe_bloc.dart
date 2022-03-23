@@ -34,7 +34,7 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       failureOrRecipe?.fold((l) => {
         emit(Error(Message: _mapFailureToMessage(l)))
       }, (r) {
-        // emit(Loaded(recipes: <RecipeModel>[r]));
+        emit(Loaded(<RecipeModel>[r]));
       });
     });
 
