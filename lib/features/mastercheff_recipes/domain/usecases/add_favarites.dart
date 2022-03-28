@@ -7,14 +7,14 @@ import 'package:master_chef_yemek_tarifleri/core/usecases/UseCase.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/repositories/ms_recipes_repository.dart';
 
-class AddFavorites implements UseCase<RecipeModel, ParamsAddFavorites>{
+class AddFavorites implements UseCase<int, ParamsAddFavorites>{
   final MSRecipesRepository _repository;
 
   AddFavorites(this._repository);
 
   @override
-  Future<Either<Failure, RecipeModel>?> call(ParamsAddFavorites params) async {
-   return _repository.addToFavorite(params.recipe);
+  Future<Either<Failure, int>?> call(ParamsAddFavorites params) async {
+   return await _repository.addToFavorite(params.recipe);
   }
 }
 

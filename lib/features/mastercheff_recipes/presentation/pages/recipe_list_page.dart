@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:master_chef_yemek_tarifleri/di/getx.dart';
@@ -122,7 +124,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
             child: CircularProgressIndicator(),
           );
         } else if (state is Loaded) {
-          return _recipesListUpdate(context);
+          print("gelen cevap in sayisi : "+state.list.length.toString());
+          return _recipesListUpdate(context, state.list);
         } else if (state is Error) {
           return Center(child: Text(state.Message));
         }
@@ -134,8 +137,8 @@ class _RecipeListPageState extends State<RecipeListPage> {
     );
   }
 
-  Widget _recipesListUpdate(BuildContext context) {
-    if (bloc.listRecipe.isEmpty) {
+  Widget _recipesListUpdate(BuildContext context, List<RecipeModel> list) {
+    if (list.isEmpty) {
       return const Center(
         child: Text("bos geldi"),
       );
@@ -143,12 +146,11 @@ class _RecipeListPageState extends State<RecipeListPage> {
     return Stack(
       children: [
         ListView.separated(
-          itemCount: bloc.listRecipe.length + 1,
+          itemCount: list.length + 1,
           itemBuilder: (context, index) {
-            if (index != 0 && index == bloc.listRecipe.length) {
+            if (index != 0 && index == list.length) {
               print("index ve recipe lenght esit");
-              bloc
-                  .getRecipePages(bloc.counter)
+              bloc.getRecipePages(bloc.counter)
                   .then((value) => setState(() {}));
               return const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -156,7 +158,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
               );
             } else {
               return RecipeListItemWidget(
-                  key: widget.key, recipeModel: bloc.listRecipe[index]);
+                  key: widget.key, recipeModel: list[index]);
             }
           },
           separatorBuilder: (BuildContext context, int index) {
@@ -169,7 +171,7 @@ class _RecipeListPageState extends State<RecipeListPage> {
           },
         ),
         Positioned(
-            top: 35,
+            top: Platform.isAndroid ? 50 : 70,
             left: 20,
             right: 20,
             child: Container(

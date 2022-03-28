@@ -7,6 +7,7 @@ import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/get_random_recipe.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/get_recipe_by_id.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/get_recipes_with_pagination.dart';
+import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/search_recipe.dart';
 
 import 'recipe_event.dart';
 import 'recipe_state.dart';
@@ -18,12 +19,13 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
   List<RecipeModel> listRecipe = [];
   int counter = 0;
   GetRecipesWithPagination getRecipesWithPagination;
-
+  SearchRecipe searchRecipe;
   RecipeBloc({
     required GetRecipeById getRecipeById,
     required this.getRecipesWithPagination,
     required GetRandomRecipe getRandomRecipe,
     required AddFavorites addFavorites,
+    required this.searchRecipe
   }) : super(RecipeState().init()) {
 
     on<InitEvent>(_init);
@@ -50,8 +52,22 @@ class RecipeBloc extends Bloc<RecipeEvent, RecipeState> {
       );
     });
 
-    on<SearchRecipeEvent>((event, emit){
+    on<SearchRecipeEvent>((event, emit) async {
+      emit(Loading());
+      final response = await searchRecipe(ParamsSearchRecipe(event.searchText));
+      response?.fold((l) => {Error(Message: "error data fetch")}, (r) => Loaded(r));
+    });
 
+    on<AddFavoriteEvent>((event, emit) async {
+      emit(Loading());
+      final response = await addFavorites(ParamsAddFavorites(recipe: event.recipeModel));
+      response?.fold(
+              (failure) {
+                emit(Error(Message: _mapFailureToMessage(failure)));
+              },
+              (response) {
+                emit(Loaded([]));
+              });
     });
   }
 

@@ -7,6 +7,7 @@ abstract class MSRecipesRepository {
   Future<Either<Failure, List<RecipeModel>>> getRecipesByPage(int pageNumber);
   Future<Either<Failure, RecipeModel>> getRecipeByID(int recipeID);
   Future<Either<Failure, RecipeModel>> getRecipeRandom();
-  Future<Either<Failure, RecipeModel>> addToFavorite(RecipeModel recipeModel);
+  Future<Either<Failure, int>> addToFavorite(RecipeModel recipeModel);
   Future<Either<Failure, RecipeModel>> deleteFromFavorite(RecipeModel recipeModel);
+  Future<Either<Failure, List<RecipeModel>>> searchRecipe(String query);
 }

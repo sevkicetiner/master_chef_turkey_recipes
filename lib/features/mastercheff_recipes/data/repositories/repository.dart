@@ -4,16 +4,19 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart';
 import 'package:master_chef_yemek_tarifleri/core/errors/exceptions.dart';
 import 'package:master_chef_yemek_tarifleri/core/errors/failures.dart';
+import 'package:master_chef_yemek_tarifleri/core/utils/environment.dart';
 import 'package:master_chef_yemek_tarifleri/core/utils/mongo_db_connection.dart';
 import 'package:http/http.dart' as http;
+import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/datasources/local_datasource.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/datasources/remote_datasource.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/repositories/ms_recipes_repository.dart';
 // import 'package:mongo_dart/mongo_dart.dart';
 
 class Repository implements MSRecipesRepository{
-  RecipesRemoteDatasource _recipesRemoteDatasource;
-  Repository(this._recipesRemoteDatasource);
+  final MSRemoteDatasource _recipesRemoteDatasource;
+  final MSLocalDatasource _localDatasource;
+  Repository(this._recipesRemoteDatasource, this._localDatasource);
 
   Future<String> createClaass(RecipeModel recipeModel) async {
     const keyApplicationId = 'aIdalP1zd7SPD9jbog7zs9p6k7tLp7zgRx0q6C8B';
@@ -57,9 +60,12 @@ class Repository implements MSRecipesRepository{
   // }
 
   @override
-  Future<Either<Failure, RecipeModel>> addToFavorite(RecipeModel recipeModel) {
-    // TODO: implement addToFavorite
-    throw UnimplementedError();
+  Future<Either<Failure, int>> addToFavorite(RecipeModel recipeModel) async {
+    try{
+      return Right(await _localDatasource.addToFavorite(recipeModel));
+    } on CachException {
+      return Left(CacheFailure());
+    }
   }
 
   @override
@@ -94,5 +100,14 @@ class Repository implements MSRecipesRepository{
       return Left(ServerFailure());
     }
 
+  }
+
+  @override
+  Future<Either<Failure, List<RecipeModel>>> searchRecipe(String query) async {
+    try{
+      return Right(await _recipesRemoteDatasource.searchRecipe(query));
+    } on ServerException {
+      return Left(ServerFailure());
+    }
   }
 }

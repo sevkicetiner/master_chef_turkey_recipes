@@ -13,6 +13,10 @@ class FavoritePage extends StatefulWidget {
 
 class _FavoritePageState extends State<FavoritePage> {
 
+  late Box<RecipeModel> box;
+
+  Future<void> initHiveBox() async =>
+      box = await Hive.openBox<RecipeModel>('Recipe');
 
   @override
   Widget build(BuildContext context) {

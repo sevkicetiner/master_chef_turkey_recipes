@@ -11,9 +11,8 @@ import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/present
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/presentation/pages/recipe_random_page.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
   final Key mKey = UniqueKey();
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
