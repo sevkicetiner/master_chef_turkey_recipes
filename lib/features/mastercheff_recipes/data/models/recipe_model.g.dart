@@ -41,13 +41,13 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
       .._kslug = fields[21] as String?
       .._kname = fields[22] as String?
       .._yayinlanmaTarihi = fields[23] as String?
-        .._localImage = fields[24] as String?;
+      .._localImage = fields[24] as String?;
   }
 
   @override
   void write(BinaryWriter writer, RecipeModel obj) {
     writer
-      ..writeByte(24)
+      ..writeByte(25)
       ..writeByte(0)
       ..write(obj._id)
       ..writeByte(1)

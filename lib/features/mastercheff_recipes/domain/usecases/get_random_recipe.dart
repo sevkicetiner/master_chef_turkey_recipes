@@ -13,8 +13,7 @@ class GetRandomRecipe implements UseCase<RecipeModel, NoParams>{
   GetRandomRecipe(this._repository);
 
   @override
-  Future<Either<Failure, RecipeModel>?> call(NoParams params) async {
-    // return await _repository.getRecipeRandom();
-    return Future.value(null);
+  Future<Either<Failure, RecipeModel>> call(NoParams params) async {
+    return await _repository.getRecipeRandom();
   }
 }

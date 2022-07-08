@@ -24,7 +24,6 @@ class RecipeListItemWidget extends StatelessWidget {
         margin: EdgeInsets.all(5),
         child: Stack(
           children: [
-
             Container(
               padding: const EdgeInsets.all(5.0),
               alignment: Alignment.bottomCenter,
@@ -42,11 +41,14 @@ class RecipeListItemWidget extends StatelessWidget {
               child: Container(
                 alignment: Alignment.bottomCenter,
                 height: 120,
-                child: Text(
-                  recipeModel.baslikOrig ?? "",
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    recipeModel.baslikOrig ?? "",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                    ),
                   ),
                 ),
                 decoration: BoxDecoration(
@@ -67,7 +69,7 @@ class RecipeListItemWidget extends StatelessWidget {
               top: 10, left: 0,right: 10,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
+                children: const <Widget>[
                   Icon(Icons.add_circle)
                 ],
               ),

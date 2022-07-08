@@ -14,9 +14,8 @@ class SearchRecipe extends UseCase<List<RecipeModel>, ParamsSearchRecipe> {
 
   @override
   Future<Either<Failure, List<RecipeModel>>?> call(ParamsSearchRecipe params) async {
-    return repository.searchRecipe(params.query);
+    return await repository.searchRecipe(params.query);
   }
-
 }
 
 class ParamsSearchRecipe extends Equatable {

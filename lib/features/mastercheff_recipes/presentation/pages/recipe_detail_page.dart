@@ -9,6 +9,7 @@ import 'package:master_chef_yemek_tarifleri/core/utils/environment.dart';
 import 'package:master_chef_yemek_tarifleri/di/getx.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/data/models/recipe_model.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/add_favarites.dart';
+import 'package:wakelock/wakelock.dart';
 
 class RecipeDetailPage extends StatefulWidget {
   const RecipeDetailPage({Key? key, required this.recipeModel})
@@ -23,11 +24,19 @@ class _RecipeDetailPageState extends State<RecipeDetailPage> {
   late Box<RecipeModel> boxRecive;
   @override
   void initState() {
+    Wakelock.enable();
     super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    Wakelock.disable();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(widget.recipeModel.localImage ?? "bos geldi");
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[

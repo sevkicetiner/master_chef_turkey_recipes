@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "879941620993",
+    "project_id": "mastercheff-8d561",
+    "storage_bucket": "mastercheff-8d561.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879941620993:android:4f8314cb5aca4c4b1bb700",
+        "android_client_info": {
+          "package_name": "com.example.master_chef_yemek_tarifleri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879941620993-9bmler6a3r1uthduqh0ujd96ut2tfkgg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWgeSeXSlQbbMEYVP7lcU_fAb7pPGksM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879941620993-9bmler6a3r1uthduqh0ujd96ut2tfkgg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

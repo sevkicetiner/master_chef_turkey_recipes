@@ -23,7 +23,13 @@ class _FavoritePageState extends State<FavoritePage> {
     var box = Hive.box<RecipeModel>("Recipe");
     return Container(
       child: ListView(
-        children: box.values.map((e) => RecipeListItemWidget(recipeModel: e)).toList()
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 100, left: 50, bottom: 50),
+            child: const Text("Kaydettiklerin",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+          ),
+           ...box.values.map((e) => RecipeListItemWidget(recipeModel: e)).toList()]
         // box.values.map((e) => RecipeListItemWidget(recipeModel: e)).toList(),
       ),
     );

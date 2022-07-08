@@ -28,10 +28,10 @@ class Loaded extends RecipeState {
   Loaded(this.list);
 }
 
-class LoadedRecipeList extends RecipeState {
+class LoadedSearchList extends RecipeState {
   List<RecipeModel> list = [];
 
-  LoadedRecipeList(this.list);
+  LoadedSearchList(this.list);
 }
 
 class Error extends RecipeState {

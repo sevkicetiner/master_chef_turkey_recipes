@@ -8,7 +8,7 @@ import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/get_recipe_by_id.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/get_recipes_with_pagination.dart';
 import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/domain/usecases/search_recipe.dart';
-import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/presentation/block/recipe_bloc.dart';
+import 'package:master_chef_yemek_tarifleri/features/mastercheff_recipes/presentation/blocs/recipe_list_search_bloc/recipe_bloc.dart';
 
 final getInstance = GetIt.instance;
 

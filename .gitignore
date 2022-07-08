@@ -48,3 +48,10 @@ app.*.map.json
 .env.production
 .env.development
 .env
+ios/GoogleService-Info.plist
+ios/firebase_core.podspec
+ios/firebase_messaging.podspec
+android/local.properties
+lib/firebase_options.dart
+lib/firebase_messaging.dart
+lib/firebase_core.dart
